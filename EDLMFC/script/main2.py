@@ -443,53 +443,7 @@ out.write('\nPos samples: {}, Neg samples: {}.\n'.format(positive_sample_number,
 
 X, y = pre_process_data(samples=samples)
 size_X = len(X)
-# DF6= pd.DataFrame(X)
-# DF6.to_csv("X6.tsv")
 
-# DF7= pd.DataFrame(y)
-# DF7.to_csv("y7.tsv")
-
-# generate train and test data
-X_train_conjoint = [X[0][0][:], X[0][1][:]]
-X_train_conjoint_struct = [X[1][0][:], X[1][1][:]]
-X_train_conjoint_cnn = [X[2][0][:], X[2][1][:]]
-X_train_conjoint_struct_cnn = [X[3][0][:], X[3][1][:]]
-X_train_conjoint_previous = [X[4][0][:], X[4][1][:]]
-
-
-# print("Hello")
-y_train_mono = y[:]
-y_train = np_utils.to_categorical(y_train_mono, 2)
-
-
-X_ensemble_train = X_train_conjoint_struct + X_train_conjoint_struct_cnn
-acol0 = X_ensemble_train[0].shape
-acol1 = X_ensemble_train[1].shape
-acol2 = X_ensemble_train[2].shape
-acol3 = X_ensemble_train[3].shape
-
-print("X_ensemble_train[0] : " + str(acol0))
-print("X_ensemble_train[1] : " + str(acol1))
-print("X_ensemble_train[2] : " + str(acol2))
-print("X_ensemble_train[3] : " + str(acol3))
-# #------------------------------------------------------------------------------
-# aco0 = X_train_conjoint_struct_cnn[0].shape
-# aco1 = X_train_conjoint_struct_cnn[1].shape
-# print("X_train_conjoint_struct_cnn[0] : " + str(aco0))
-# print("X_train_conjoint_struct_cnn[1] : " + str(aco1))
-
-# # pd.DataFrame(X_ensemble_train).to_csv("X_ensemble_train.csv")
-# DF3= pd.DataFrame(X_ensemble_train)
-# DF3.to_csv("X_ensemble_train.tsv")
-
-# print("size of samples_X ===========================================================",size_X)
-
-
-# # pd.DataFrame(X_ensemble_train).to_csv("X_ensemble_train.csv")
-# DF3= pd.DataFrame(X_ensemble_train)
-# DF3.to_csv("X_ensemble_train.tsv")
-
-print("size of samples_X ===========================================================",size_X)
 # K-fold CV processes
 print('\n\nK-fold cross validation processes:\n')
 out.write('\n\nK-fold cross validation processes:\n')
@@ -527,15 +481,17 @@ for fold in range(K_FOLD):
 
     module_index = 0
 
-    
-
+    # =================================================================
     # Conjoint-struct-CNN-LSTM module
 
     stage = 'Conjoint-Struct-CNN-BLSTM'
     print("\n# Module Conjoint-Struct-CNN-BLSTM part #\n")
 
     # create model
-    print()
+    print("PRO_STRUCT_CODING_LENGTH", PRO_STRUCT_CODING_LENGTH)
+    print("RNA_STRUCT_CODING_LENGTH", RNA_STRUCT_CODING_LENGTH)
+    print("VECTOR_REPETITION_CNN", VECTOR_REPETITION_CNN)
+
     
     model_conjoint_struct_cnn_blstm = conjoint_struct_cnn_blstm(PRO_STRUCT_CODING_LENGTH, RNA_STRUCT_CODING_LENGTH, VECTOR_REPETITION_CNN)
     callbacks = get_callback_list(PATIENCES[0], result_save_path, stage, fold, X_test_conjoint_struct_cnn,
