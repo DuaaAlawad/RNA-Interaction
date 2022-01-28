@@ -496,6 +496,7 @@ for fold in range(K_FOLD):
     model_conjoint_struct_cnn_blstm = conjoint_struct_cnn_blstm(PRO_STRUCT_CODING_LENGTH, RNA_STRUCT_CODING_LENGTH, VECTOR_REPETITION_CNN)
     callbacks = get_callback_list(PATIENCES[0], result_save_path, stage, fold, X_test_conjoint_struct_cnn,
                                   y_test)
+    print("model_conjoint_struct_cnn_blstm",model_conjoint_struct_cnn_blstm)
 
     # first train
     opt = keras.optimizers.Adam(learning_rate=0.01)
