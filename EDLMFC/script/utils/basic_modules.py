@@ -94,9 +94,9 @@ def conjoint_struct_cnn_blstm(pro_coding_length, rna_coding_length, vector_repea
         vec_len_p = vector_repeatition_cnn[0]
         vec_len_r = vector_repeatition_cnn[1]
 
-
+    pro_coding_length=443
     # NN for protein feature analysis by one hot encoding
-    xp_in_conjoint_struct_cnn_blstm = Input(shape=(pro_coding_length, vec_len_p))
+    xp_in_conjoint_struct_cnn_blstm = Input(pro_coding_length)
     # xp_cnn = Conv1D(filters=45, kernel_size=6, strides=1, activation='relu')(xp_in_conjoint_struct_cnn_blstm)
     # xp_cnn = MaxPooling1D(pool_size=2)(xp_cnn)
     # xp_cnn = BatchNormalization()(xp_cnn)
@@ -121,17 +121,16 @@ def conjoint_struct_cnn_blstm(pro_coding_length, rna_coding_length, vector_repea
     embed_dim = 32  # Embedding size for each token
     num_heads = 2  # Number of attention heads
     ff_dim = 32  # Hidden layer size in feed forward network inside transformer
-    vocab_size = 20000  # Only consider the top 20k words
-    maxlen = 20
+    vocab_size = 443  # Only consider the top 20k words
+    # maxlen = 20
 
 
     # inputs_Pr = layers.Input(shape=(xp_cnn,))
     # print("shape of input", inputs.shape)
-    embedding_layer = TokenAndPositionEmbedding(maxlen, vocab_size, embed_dim)
+    embedding_layer = TokenAndPositionEmbedding(pro_coding_length, vocab_size, embed_dim)
     x = embedding_layer(xp_in_conjoint_struct_cnn_blstm)
     transformer_block = TransformerBlock(embed_dim, num_heads, ff_dim)
     x = transformer_block(x)
-    print("x",x)
     x = layers.GlobalAveragePooling2D()(x)
     x = layers.Dropout(0.1)(x)
     
@@ -141,9 +140,9 @@ def conjoint_struct_cnn_blstm(pro_coding_length, rna_coding_length, vector_repea
 
 
 
-
+    rna_coding_length=3141
     # NN for RNA feature analysis  by one hot encoding
-    xr_in_conjoint_struct_cnn_blstm = Input(shape=(rna_coding_length, vec_len_r))
+    xr_in_conjoint_struct_cnn_blstm = Input()
     # xr_cnn = Conv1D(filters=45, kernel_size=6, strides=1, activation='relu')(xr_in_conjoint_struct_cnn_blstm)
     # xr_cnn = MaxPooling1D(pool_size=2)(xr_cnn)
     # xr_cnn = BatchNormalization()(xr_cnn)
@@ -167,13 +166,13 @@ def conjoint_struct_cnn_blstm(pro_coding_length, rna_coding_length, vector_repea
     embed_dim = 32  # Embedding size for each token
     num_heads = 2  # Number of attention heads
     ff_dim = 32  # Hidden layer size in feed forward network inside transformer
-    vocab_size = 20000  # Only consider the top 20k words
-    maxlenrna = 86
+    vocab_size = 3141  # Only consider the top 20k words
+    
 
 
     # inputs_RNA = layers.Input(shape=(xr_cnn,))
     # print("shape of input", inputs.shape)
-    embedding_layer = TokenAndPositionEmbedding(maxlenrna, vocab_size, embed_dim)
+    embedding_layer = TokenAndPositionEmbedding(rna_coding_length, vocab_size, embed_dim)
     x_RNA = embedding_layer(xr_in_conjoint_struct_cnn_blstm)
     transformer_block = TransformerBlock(embed_dim, num_heads, ff_dim)
     x_RNA = transformer_block(x_RNA)
