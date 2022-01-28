@@ -96,7 +96,7 @@ def conjoint_struct_cnn_blstm(pro_coding_length, rna_coding_length, vector_repea
 
     pro_coding_length=443
     # NN for protein feature analysis by one hot encoding
-    xp_in_conjoint_struct_cnn_blstm = Input(pro_coding_length)
+    xp_in_conjoint_struct_cnn_blstm = Input(shape=(0,pro_coding_length))
     # xp_cnn = Conv1D(filters=45, kernel_size=6, strides=1, activation='relu')(xp_in_conjoint_struct_cnn_blstm)
     # xp_cnn = MaxPooling1D(pool_size=2)(xp_cnn)
     # xp_cnn = BatchNormalization()(xp_cnn)
@@ -142,7 +142,7 @@ def conjoint_struct_cnn_blstm(pro_coding_length, rna_coding_length, vector_repea
 
     rna_coding_length=3141
     # NN for RNA feature analysis  by one hot encoding
-    xr_in_conjoint_struct_cnn_blstm = Input()
+    xr_in_conjoint_struct_cnn_blstm = Input(shape=(0,rna_coding_length))
     # xr_cnn = Conv1D(filters=45, kernel_size=6, strides=1, activation='relu')(xr_in_conjoint_struct_cnn_blstm)
     # xr_cnn = MaxPooling1D(pool_size=2)(xr_cnn)
     # xr_cnn = BatchNormalization()(xr_cnn)
